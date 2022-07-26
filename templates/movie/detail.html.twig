@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MovieController!{% endblock %}
+
+{% block body %}
+    <div>
+        <h3>{{ details.title }}</h3>
+        <p>Released at {{ details.releasedAt|date("d/m/Y") }}</p>
+        <small>
+            Genres : {{ details.genres|join(', ') }}
+        </small>
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MovieController!{% endblock %}
+
+{% block body %}
+    <ul>
+    {% for movie in movies %}
+        <li>
+            <a href="{{ path('app_movie', {'name': movie|url_encode}) }}">
+                {{ movie }}
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
