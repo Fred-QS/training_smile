@@ -2,40 +2,31 @@
 
 namespace App\Controller;
 
+use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MovieController extends AbstractController
 {
-
-    private array $movies = ['Les minions', 'Mer des monstres', 'Transformers', 'Start Wars IV'];
-
     #[Route('/movies', name: 'app_movies')]
-    public function index(): Response
+    public function index(MovieRepository $movieRepository): Response
     {
+        $movies = $movieRepository->findAll();
         return $this->render('movie/index.html.twig', [
-            'movies' => $this->movies,
+            'movies' => $movies,
         ]);
     }
 
     /**
      * @throws \Exception
      */
-    #[Route('/movie/{name}', name: 'app_movie')]
-    public function show(string $name): Response
+    #[Route('/movie/{id<\d+>?1}', name: 'app_movie')]
+    public function details(MovieRepository $movieRepository, int $id): Response
     {
-        $details = [
-            'title' => urldecode($name),
-            'releasedAt' => new \DateTimeImmutable('2022-01-22'),
-            'genres' => [
-                'SF',
-                'Drama',
-                'Family'
-            ]
-        ];
+        $movie = $movieRepository->find($id);
         return $this->render('movie/detail.html.twig', [
-            'details' => $details
+            'movie' => $movie
         ]);
     }
 }

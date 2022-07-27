@@ -6,7 +6,7 @@
     <ul>
     {% for movie in movies %}
         <li>
-            <a href="{{ path('app_movie', {'name': movie|url_encode}) }}">
+            <a href="{{ path('app_movie', {'id': movie.id}) }}">
                 {{ movie }}
             </a>
         </li>
