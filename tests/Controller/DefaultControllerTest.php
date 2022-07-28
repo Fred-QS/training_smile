@@ -5,13 +5,12 @@ namespace App\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class HomeControllerTest extends WebTestCase
+class DefaultControllerTest extends WebTestCase
 {
     /**
      * @dataProvider provideUrlsAndCodes
-     * @group unit
      */
-    public function testHomePage(string $url, int $code): void
+    public function testPublicUrls(string $url, int $code): void
     {
         $client = static::createClient();
         $crawler = $client->request(Request::METHOD_GET, $url);

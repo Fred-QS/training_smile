@@ -2,31 +2,37 @@
 
 namespace App\Controller;
 
-use App\Repository\MovieRepository;
+use App\Consumer\OMDbApiConsumer;
+use App\Provider\MovieProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/movie', name: 'app_movie_')]
 class MovieController extends AbstractController
 {
-    #[Route('/movies', name: 'app_movies')]
-    public function index(MovieRepository $movieRepository): Response
+    #[Route('', name: 'index')]
+    public function index(): Response
     {
-        $movies = $movieRepository->findAll();
         return $this->render('movie/index.html.twig', [
-            'movies' => $movies,
+            'controller_name' => 'MovieController',
         ]);
     }
 
-    /**
-     * @throws \Exception
-     */
-    #[Route('/movie/{id<\d+>?1}', name: 'app_movie')]
-    public function details(MovieRepository $movieRepository, int $id): Response
+    #[Route('/{title}', name: 'details')]
+    public function details(string $title, MovieProvider $provider): Response
     {
-        $movie = $movieRepository->find($id);
-        return $this->render('movie/detail.html.twig', [
-            'movie' => $movie
+        $movie = $provider->getMovieByTitle($title);
+
+        return $this->render('movie/details.html.twig', [
+            'movie' => $movie,
         ]);
+    }
+
+    #[Route('/test', name: 'test')]
+    public function menu(OMDbApiConsumer $consumer)
+    {
+        dd($consumer->consume(OMDbApiConsumer::MODE_TITLE, 'Star Wars'));
+        return '';
     }
 }

@@ -39,6 +39,24 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
+    //public function getLike(string $isbn)
+    //{
+    //    $qb = $this->createQueryBuilder('b');
+    //
+    //    return $qb->andWhere(
+    //        $qb->expr()->like('b.author', '%Orwell%')
+    //    )
+    //        ->andWhere(
+    //            $qb->expr()->orX(
+    //                $qb->expr()->eq('b.isbn', ':isbn'),
+    //                $qb->expr()->gte('b.releasedAt', new \DateTimeImmutable('1977-01-01'))
+    //            )
+    //        )
+    //        ->setParameter('isbn', $isbn, \PDO::PARAM_STR)
+    //        ->getQuery()
+    //        ->getOneOrNullResult();
+    //}
+
 //    /**
 //     * @return Book[] Returns an array of Book objects
 //     */

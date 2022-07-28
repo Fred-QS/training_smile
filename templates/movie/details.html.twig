@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Movie Details: {% if movie is not null %}{{ movie.title }}{% else %}Pa de film...{% endif %}{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    {% if movie is not null %}
+    <h1>Movie : {{ movie.title }}</h1>
+
+    <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="float-end w-50">
+    <ul>
+        <li>Id : {{ movie.id }}</li>
+        <li>Released : {{ movie.releasedAt|date('Y M d') }}</li>
+        <li>Country : {{ movie.country }}</li>
+        <li>Genres : {{ movie.genres|reduce((carry, genre) => carry == '' ? carry ~ genre.name : carry ~ ', ' ~ genre.name, '') }}</li>
+    </ul>
+    {% else %}
+        <p>Movie not found.</p>
+    {% endif %}
+</div>
+{% endblock %}

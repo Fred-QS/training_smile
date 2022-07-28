@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Genre;
 use App\Entity\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,36 @@ class MovieRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByLowerTitle(string $title): ?Movie
+    {
+        $qb = $this->createQueryBuilder('m');
+        return $qb->innerJoin(Genre::class, 'g')
+            ->andWhere(
+                $qb->expr()->eq($qb->expr()->lower('m.title'), ':title')
+            )
+            ->setParameter('title', strtolower($title), \PDO::PARAM_STR)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByImdbId(string $code): ?Movie
+    {
+        $qb = $this->createQueryBuilder('m');
+        return $qb->innerJoin(Genre::class, 'g')
+            ->andWhere(
+                $qb->expr()->eq($qb->expr()->lower('m.imdbId'), ':code')
+            )
+            ->setParameter('code', strtolower($code), \PDO::PARAM_STR)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 //    /**

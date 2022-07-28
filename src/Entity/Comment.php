@@ -21,9 +21,10 @@ class Comment
     private ?string $message = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $publishedAt = null;
+    private ?\DateTimeImmutable $postedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
 
     public function getId(): ?int
@@ -55,14 +56,14 @@ class Comment
         return $this;
     }
 
-    public function getPublishedAt(): ?\DateTimeImmutable
+    public function getPostedAt(): ?\DateTimeImmutable
     {
-        return $this->publishedAt;
+        return $this->postedAt;
     }
 
-    public function setPublishedAt(\DateTimeImmutable $publishedAt): self
+    public function setPostedAt(\DateTimeImmutable $postedAt): self
     {
-        $this->publishedAt = $publishedAt;
+        $this->postedAt = $postedAt;
 
         return $this;
     }
